@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <title>Document</title>
+</head>
+<body>
+  <!-- 可以用 v-on 指令监听 DOM 事件，并在触发时运行一些 JavaScript 代码。 -->
+  <div id="app">
+    <button v-on:click="counter += 1">Add 1</button>
+    <p>The button above has been clicked {{ counter }} times.</p>
+
+
+      <!-- 许多事件处理逻辑会更为复杂 -->
+      <!-- v-on 还可以接收一个需要调用的方法名称 -->
+      <button v-on:click="greet">Greet</button>
+      <br>
+
+    <!-- 除了直接绑定到一个方法，也可以在内联 JavaScript 语句中调用方法 -->
+    <div>
+    <button v-on:click="say('hi')">Say hi</button>
+    <button v-on:click="say('what')">Say what</button>
+    </div>
+    <br>
+    <!-- 有时也需要在内联语句处理器中访问原始的 DOM 事件。
+    可以用特殊变量 $event 把它传入方法 -->
+    <div>
+      <button v-on:click="warn('Form cannot be submitted yet.', $event)">
+        Submit
+      </button>
+    </div>
+
+
+    <p>事件修饰符</p>
+    <!-- Vue.js 为 v-on 提供了事件修饰符。之前提过，修饰符是由点开头的指令后缀来表示的。 -->
+    <!-- .stop
+    .prevent
+    .capture
+    .self
+    .once
+    .passive -->
+    <!-- 阻止单击事件继续传播 -->
+    <!-- <a v-on:click.stop="doThis"></a> -->
+
+    <!-- 提交事件不再重载页面 -->
+    <!-- <form v-on:submit.prevent="onSubmit"></form> -->
+
+    <!-- 修饰符可以串联 -->
+    <!-- <a v-on:click.stop.prevent="doThat"></a> -->
+
+    <!-- 只有修饰符 -->
+    <!-- <form v-on:submit.prevent></form> -->
+
+    <!-- 添加事件监听器时使用事件捕获模式 -->
+    <!-- 即内部元素触发的事件先在此处理，然后才交由内部元素进行处理 -->
+    <!-- <div v-on:click.capture="doThis">...</div> -->
+
+    <!-- 只当在 event.target 是当前元素自身时触发处理函数 -->
+    <!-- 即事件不是从内部元素触发的 -->
+    <!-- <div v-on:click.self="doThat">...</div> -->
+
+    <!-- 点击事件将只会触发一次 -->
+    <!-- <a v-on:click.once="doThis"></a> -->
+
+  </div>
+
+
+
+
+</body>
+
+<script>
+
+var app= new Vue({
+  el: '#app',
+  data: {
+    counter: 0,
+    name: 'Vue.js'
+  },
+  methods: {
+    greet: function (event) {
+      // `this` 在方法里指向当前 Vue 实例
+      alert('Hello ' + this.name + '!')
+      // `event` 是原生 DOM 事件
+      // console.log(event)
+      if (event) {
+        alert(event.target.tagName)
+      }
+    },
+
+
+    say: function (message) {
+      alert(message)
+    },
+
+    warn: function (message, event) {
+      // 现在我们可以访问原生事件对象
+      if (event) {
+        event.preventDefault()
+      }
+      alert(message)
+    }
+
+
+
+
+  },
+
+
+
+})
+
+
+// 也可以用 JavaScript 直接调用方法
+// app.greet() // => 'Hello Vue.js!'
+</script>
+</html>
